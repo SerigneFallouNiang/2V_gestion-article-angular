@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { PostService } from '../post.service';
 import { Post } from '../post';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
   
 @Component({
   selector: 'app-index',
@@ -16,7 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class IndexComponent {
   
   posts: Post[] = [];
-  
+
   form!: FormGroup;
   /*------------------------------------------
   --------------------------------------------
@@ -30,18 +29,34 @@ export class IndexComponent {
       this.posts = data;
       console.log(this.posts);
     })  
+
+    this.form = new FormGroup({
+      title: new FormControl('', [Validators.required]),
+      body: new FormControl('', Validators.required)
+    });
+  }
+
+  get f(){
+    return this.form.controls;
   }
       
   deletePost(id:number){
     this.postService.delete(id).subscribe(res=>{
       this.posts = this.posts.filter(item=>item.id !== id);
-      alert("Article supprimée avec success")
+      // alert("Article supprimée avec success")
     })
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      console.log('Form submitted:', this.form.value);
-    }
+  submit(){
+    console.log(this.form.value);
+    this.postService.create(this.form.value).subscribe((res:any) => {
+         console.log('Post created successfully!');
+          // Ajouter le nouveau post au début du tableau
+          this.posts.unshift(res);
+          // Réinitialiser le formulaire
+          this.form.reset();
+        alert('Ajout avec success')
+    })
+   
   }
 }

@@ -49,6 +49,13 @@ export class PostService {
     return this.httpClient.delete(this.apiURL + '/posts/' + id, this.httpOptions)
   }
 
-
+  create(post:Post): Observable<any> {
+  
+    return this.httpClient.post<any>(this.apiURL + '/posts/', JSON.stringify(post), this.httpOptions)
+  
+    // .pipe(
+    //   catchError(this.errorHandler)
+    // )
+  }  
 
 }
