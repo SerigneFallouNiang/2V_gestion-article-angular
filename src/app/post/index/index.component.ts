@@ -4,7 +4,8 @@ import { RouterModule } from '@angular/router';
 import { PostService } from '../post.service';
 import { Post } from '../post';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-  
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-index',
   standalone: true,
@@ -17,19 +18,37 @@ export class IndexComponent {
   posts: Post[] = [];
 
   form!: FormGroup;
-  /*------------------------------------------
-  --------------------------------------------
-  Created constructor
-  --------------------------------------------
-  --------------------------------------------*/
-  constructor(public postService: PostService) {  }
+
+//l'id de la modification
+  id!: number;
+
+  // Variable de stock pour le update
+  post!: Post;
+
+ 
+  constructor(public postService: PostService,
+
+    private route: ActivatedRoute,
+
+    private router: Router) {  }
       
   ngOnInit(): void {
+
+  //récupération des dnnées
     this.postService.getAll().subscribe((data: Post[])=>{
       this.posts = data;
       console.log(this.posts);
     })  
 
+
+  //Récupération des données par l'id
+    this.id = this.route.snapshot.params['postId'];
+    this.postService.find(this.id).subscribe((data: Post)=>{
+      this.post = data;
+
+    }); 
+
+    //Soummission des données dans le formulaire
     this.form = new FormGroup({
       title: new FormControl('', [Validators.required]),
       body: new FormControl('', Validators.required)
@@ -55,7 +74,7 @@ export class IndexComponent {
           this.posts.unshift(res);
           // Réinitialiser le formulaire
           this.form.reset();
-        alert('Ajout avec success')
+        // alert('Ajout avec success')
     })
    
   }
