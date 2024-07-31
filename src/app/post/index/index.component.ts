@@ -20,17 +20,13 @@ export class IndexComponent {
   form!: FormGroup;
 
 //l'id de la modification
-  id!: number;
+  // id!: number;
 
-  // Variable de stock pour le update
-  post!: Post;
+  // // Variable de stock pour le update
+  // post!: Post;
 
  
-  constructor(public postService: PostService,
-
-    private route: ActivatedRoute,
-
-    private router: Router) {  }
+  constructor(public postService: PostService,) {  }
       
   ngOnInit(): void {
 
@@ -42,11 +38,11 @@ export class IndexComponent {
 
 
   //Récupération des données par l'id
-    this.id = this.route.snapshot.params['postId'];
-    this.postService.find(this.id).subscribe((data: Post)=>{
-      this.post = data;
+    // this.id = this.route.snapshot.params['postId'];
+    // this.postService.find(this.id).subscribe((data: Post)=>{
+    //   this.post = data;
 
-    }); 
+    // }); 
 
     //Soummission des données dans le formulaire
     this.form = new FormGroup({
@@ -76,6 +72,8 @@ export class IndexComponent {
           this.form.reset();
         // alert('Ajout avec success')
     })
-   
+
   }
+
+  
 }
