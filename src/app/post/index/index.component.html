@@ -69,8 +69,8 @@
     
     <div class="row">
       <div class="col-md-4">
-        <h2 class="mb-3">Add New Article</h2>
-        <form [formGroup]="form" (ngSubmit)="submit()">
+        <h2 class="mb-3">{{ isEditing ? 'Modifier' : 'Ajouter' }} un article</h2>
+        <form [formGroup]="form" (ngSubmit)="submitForm()">
           <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input formControlName="title" id="title" type="text" class="form-control">
@@ -86,7 +86,10 @@
             </div>
           </div>
           <button class="btn btn-primary w-100" type="submit" [disabled]="!form.valid">
-            <i class="fas fa-plus-circle me-2"></i>Add Article
+            <i class="fas fa-plus-circle me-2"></i> {{ isEditing ? 'Mettre à jour' : 'Ajouter' }}
+          </button>
+          <button *ngIf="isEditing" class="btn btn-secondary" type="button" (click)="resetForm()">
+            Annuler
           </button>
         </form>
       </div>
@@ -105,7 +108,7 @@
                   <a [routerLink]="['/post/', post.id, 'view']" class="btn btn-outline-primary btn-sm">
                     <i class="fas fa-eye me-1"></i>View
                   </a>
-                  <a [routerLink]="['/post/', post.id, 'edit']" class="btn btn-outline-secondary btn-sm">
+                  <a (click)="editPost(post)" class="btn btn-outline-secondary btn-sm">
                     <i class="fas fa-edit me-1"></i>Edit
                   </a>
                   <button type="button" (click)="deletePost(post.id)" class="btn btn-outline-danger btn-sm">
