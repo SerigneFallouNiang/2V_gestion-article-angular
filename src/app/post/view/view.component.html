@@ -35,7 +35,13 @@
         <p>{{ post.body }}</p>
 
     </div>
-
+    <h2>Comments</h2>
+    <div *ngFor="let comment of comments">
+      <h3>{{ comment.name }}</h3>
+      <p><strong>Email:</strong> {{ comment.email }}</p>
+      <p>{{ comment.body }}</p>
+      <hr>
+    </div>
    
 
 </div>

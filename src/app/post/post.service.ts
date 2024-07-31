@@ -27,12 +27,13 @@ export class PostService {
   getAll(): Observable<any> {
   
     return this.httpClient.get(this.apiURL + '/posts/')
-  
-    // .pipe(
-      // catchError(this.errorHandler)
-    // )
   }
 
+
+   // Nouvelle méthode pour obtenir les commentaires d'un post
+   getComments(postId: number): Observable<any> {
+    return this.httpClient.get(`${this.apiURL}/posts/${postId}/comments`);
+  }
 
 
 // fonction pour la suppression
