@@ -12,43 +12,61 @@ import { Post } from './post';
 export class PostService {
   
   private apiURL = "https://jsonplaceholder.typicode.com";
-    
-  /*------------------------------------------
-  --------------------------------------------
-  Http Header Options
-  --------------------------------------------
-  --------------------------------------------*/
+
+ 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
   }
    
-  /*------------------------------------------
-  --------------------------------------------
-  Created constructor
-  --------------------------------------------
-  --------------------------------------------*/
+  
   constructor(private httpClient: HttpClient) { }
     
-  /**
-   * Write code on Method
-   *
-   * @return response()
-   */
+  // fonction pour l'affichage
   getAll(): Observable<any> {
   
     return this.httpClient.get(this.apiURL + '/posts/')
   
-    .pipe(
+    // .pipe(
       // catchError(this.errorHandler)
-    )
+    // )
   }
 
+
+
+// fonction pour la suppression
   delete(id:number){
     return this.httpClient.delete(this.apiURL + '/posts/' + id, this.httpOptions)
   }
 
 
+  // fonction pour la modification
+  update(id:number, post:Post): Observable<any> {
+  
+    return this.httpClient.put(this.apiURL + '/posts/' + id, JSON.stringify(post), this.httpOptions)
+ 
+    // .pipe( 
+    //   catchError(this.errorHandler)
+    // )
+  }
+
+
+  // fonction pour l'ajout
+  create(post:Post): Observable<any> {
+  
+    return this.httpClient.post<any>(this.apiURL + '/posts/', JSON.stringify(post), this.httpOptions)
+  
+    // .pipe(
+    //   catchError(this.errorHandler)
+    // )
+  }  
+
+
+
+  // fonction pour le voir detail
+  find(id:number): Observable<any> {
+    return this.httpClient.get(this.apiURL + '/posts/' + id)
+  }
 
 }
