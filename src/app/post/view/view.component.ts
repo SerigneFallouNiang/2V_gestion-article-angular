@@ -27,8 +27,6 @@ constructor(
 
   private route: ActivatedRoute,
 
-  private router: Router
-
  ) { }
 
  ngOnInit(): void {

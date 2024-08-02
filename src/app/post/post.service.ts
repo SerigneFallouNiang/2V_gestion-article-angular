@@ -46,10 +46,6 @@ export class PostService {
   update(id:number, post:Post): Observable<any> {
   
     return this.httpClient.put(this.apiURL + '/posts/' + id, JSON.stringify(post), this.httpOptions)
- 
-    // .pipe( 
-    //   catchError(this.errorHandler)
-    // )
   }
 
 
